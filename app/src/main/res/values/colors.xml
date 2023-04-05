@@ -3,10 +3,11 @@
     <color name="green">#39A552</color>
     <color name="black">#FF000000</color>
     <color name="sportsBG">#C91C22</color>
-    <color name="politicsBG">#003E90</color>
+    <color name="generalBG">#003E90</color>
     <color name="healthBG">#ED1E79</color>
-    <color name="business">#CF7E48</color>
-    <color name="enviromentBG">#4882CF</color>
-    <color name="sinceBG">#F2D352</color>
+    <color name="businessBG">#CF7E48</color>
+    <color name="entertainmentBG">#4882CF</color>
+    <color name="scienceBG">#F2D352</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
