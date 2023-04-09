@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-@Suppress("UNREACHABLE_CODE")
+
 class ApiManager {
     companion object {
         private val BASE_URL = " https://newsapi.org/"
@@ -22,7 +22,7 @@ class ApiManager {
                             Log.e("api", message)
                         }
                     })
-                logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                 val client: OkHttpClient = OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build()
