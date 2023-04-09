@@ -20,32 +20,32 @@ class CategoriesFragment : Fragment() {
 
     val categories = listOf(
         Category(
-            "", R.drawable.sports_logo,
+            "sports", R.drawable.sports_logo,
             R.string.sports, R.color.sportsBG
         ),
 
         Category(
-            "", R.drawable.newspaper,
+            "general", R.drawable.newspaper,
             R.string.general, R.color.generalBG
         ),
 
         Category(
-            "", R.drawable.health_logo,
+            "health", R.drawable.health_logo,
             R.string.health, R.color.healthBG
         ),
 
         Category(
-            "", R.drawable.bussines_logo,
+            "business", R.drawable.bussines_logo,
             R.string.bussines, R.color.businessBG
         ),
 
         Category(
-            "", R.drawable.cinema,
+            "entertainment", R.drawable.cinema,
             R.string.entertainment, R.color.entertainmentBG
         ),
 
         Category(
-            "", R.drawable.science_logo,
+            "science", R.drawable.science_logo,
             R.string.science, R.color.scienceBG
         )
     )
@@ -62,6 +62,7 @@ class CategoriesFragment : Fragment() {
         adapter.onItemClickListener = object : CategoriesAdapter.OnItemClickListener {
             override fun onItemClick(pos: Int, item: Category) {
                 onCategoryClickListener?.onCategoryClick(category = item)
+
             }
         }
 
