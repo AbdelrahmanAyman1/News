@@ -1,4 +1,4 @@
-package com.abdo.news.ui.fragment.settings
+package com.abdo.news.ui.home.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,62 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.MainActivity">
 
-    <data>
-
-    </data>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.MainActivity">
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_app_bar"
+        android:theme="@style/Theme.News.AppBarOverlay"
+        app:elevation="0dp">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@drawable/rounded_app_bar"
-            android:theme="@style/Theme.News.AppBarOverlay"
-            app:elevation="0dp">
+            app:elevation="0dp"
+            app:popupTheme="@style/Theme.News.PopupOverlay">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@drawable/rounded_app_bar"
-                app:elevation="0dp"
-                app:popupTheme="@style/Theme.News.PopupOverlay">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <ImageButton
+                    android:id="@+id/menu_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/green"
+                    android:src="@drawable/icon_menu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-                    <ImageButton
-                        android:id="@+id/menu_ic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/green"
-                        android:src="@drawable/icon_menu"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.SearchView
-                        android:id="@+id/abd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:queryHint="Write To Search" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <include layout="@layout/content_main" />
+    <include layout="@layout/content_main" />
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

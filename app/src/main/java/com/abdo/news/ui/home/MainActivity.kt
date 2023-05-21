@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.abdo.news.R
-import com.abdo.news.ui.fragment.categories.CategoriesFragment
-import com.abdo.news.ui.fragment.categories.Category
-import com.abdo.news.ui.fragment.news.NewsFragment
-import com.abdo.news.ui.fragment.settings.SettingsFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.abdo.news.ui.home.fragment.CategoriesFragment
+import com.abdo.news.ui.home.fragment.Category
+import com.abdo.news.ui.home.fragment.NewsFragment
+import com.abdo.news.ui.home.fragment.SettingsFragment
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     val categoriesFragment = CategoriesFragment()
@@ -22,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerIcon: ImageButton
     lateinit var categories: LinearLayout
     lateinit var settings: LinearLayout
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
