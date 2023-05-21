@@ -1,4 +1,4 @@
-package com.abdo.news.ui.home.fragment
+package com.abdo.news.ui.fragment.categories
 
 data class Category(
     val id: String,
