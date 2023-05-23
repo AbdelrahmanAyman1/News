@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.abdo.domain.model.ArticlesItemDTO
 import com.abdo.news.R
-import com.abdo.news.api.model.ArticlesItem
 import com.abdo.news.databinding.ItemNewsBinding
 
 
-class NewsAdapter(var items: List<ArticlesItem?>? = null) :
+class NewsAdapter(var items: List<ArticlesItemDTO?>? = null) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
 
@@ -34,13 +34,13 @@ class NewsAdapter(var items: List<ArticlesItem?>? = null) :
         return items?.size ?: 0
     }
 
-    fun changeData(data: List<ArticlesItem?>?) {
+    fun changeData(data: List<ArticlesItemDTO?>?) {
         items = data
         notifyDataSetChanged()
     }
 
     class ViewHolder(val itemBinding: ItemNewsBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: ArticlesItem?) {
+        fun bind(item: ArticlesItemDTO?) {
             itemBinding.item = item
             itemBinding.invalidateAll()
         }

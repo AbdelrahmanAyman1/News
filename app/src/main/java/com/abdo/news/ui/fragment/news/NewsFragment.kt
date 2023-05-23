@@ -9,8 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.abdo.domain.model.SourcesItemDTO
 import com.abdo.news.R
-import com.abdo.news.api.model.SourcesItem
 import com.abdo.news.databinding.FragmentNewsBinding
 import com.abdo.news.ui.fragment.categories.Category
 import com.google.android.material.tabs.TabLayout
@@ -81,7 +81,7 @@ class NewsFragment : Fragment() {
 
     }
 
-    private fun showTabs(sources: List<SourcesItem?>?) {
+    private fun showTabs(sources: List<SourcesItemDTO?>?) {
         sources?.forEach { item ->
             val tab = viewDataBinding.tabLayout.newTab()
             tab.tag = item
@@ -92,7 +92,7 @@ class NewsFragment : Fragment() {
             object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     // sources?.get(tab?.position?:0)
-                    val source = tab?.tag as SourcesItem
+                    val source = tab?.tag as SourcesItemDTO
                     viewModel.loadNews(source)
                     //loadNews(source)
                 }
@@ -102,7 +102,7 @@ class NewsFragment : Fragment() {
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {
-                    val source = tab?.tag as SourcesItem
+                    val source = tab?.tag as SourcesItemDTO
                     viewModel.loadNews(source)
                     //  loadNews(source)
                 }
