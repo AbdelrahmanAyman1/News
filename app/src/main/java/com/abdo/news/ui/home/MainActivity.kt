@@ -3,6 +3,7 @@ package com.abdo.news.ui.home
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -10,18 +11,16 @@ import com.abdo.news.R
 import com.abdo.news.ui.fragment.categories.CategoriesFragment
 import com.abdo.news.ui.fragment.categories.Category
 import com.abdo.news.ui.fragment.news.NewsFragment
-import com.abdo.news.ui.fragment.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     val categoriesFragment = CategoriesFragment()
-    val settingsFragment = SettingsFragment()
     lateinit var drawerLayout: DrawerLayout
     lateinit var drawerIcon: ImageButton
     lateinit var categories: LinearLayout
-    lateinit var settings: LinearLayout
+    lateinit var name: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerIcon = findViewById(R.id.menu_ic)
         categories = findViewById(R.id.categories_linear)
-        settings = findViewById(R.id.settings_linear)
+        name = findViewById(R.id.category_name)
         pushFragment(categoriesFragment)
 
         categoriesFragment.onCategoryClickListener =
@@ -43,10 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
         categories.setOnClickListener {
             pushFragment(categoriesFragment)
-
-        }
-        settings.setOnClickListener {
-            pushFragment(settingsFragment)
+            name.text = "News App"
 
         }
     }

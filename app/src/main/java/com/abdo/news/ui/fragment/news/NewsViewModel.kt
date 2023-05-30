@@ -39,30 +39,14 @@ class NewsViewModel @Inject constructor(
             }
         }
 
-//        ApiManager.getApis()
-//            .getNewsSources(Constants.apiKey, category.id)
-//            .enqueue(object : Callback<SourcesResponse> {
-//                override fun onResponse(
-//                    call: Call<SourcesResponse>,
-//                    response: Response<SourcesResponse>
-//                ) {
-//                    progressBarVisible.value = false
-//                    sourcesLiveData.value = response.body()?.sources
-//                    Log.e("response", response.body().toString())
-//                }
-//
-//                override fun onFailure(call: Call<SourcesResponse>, t: Throwable) {
-//                    progressBarVisible.value = false
-//
-//                }
-//            })
+
     }
 
-    fun loadNews(source: SourcesItemDTO) {
+    fun loadNews(sourceClicked: SourcesItemDTO?, query: String?) {
         viewModelScope.launch {
             try {
                 progressBarVisible.value = true
-                val result = newsRepository.getNews(source.id!!)
+                val result = newsRepository.getNews(sourceClicked!!, query!!)
                 newsLiveData.value = result
                 progressBarVisible.value = false
             } catch (ex: Exception) {
@@ -71,45 +55,6 @@ class NewsViewModel @Inject constructor(
             }
 
         }
-//        ApiManager.getApis()
-//            .getNews(Constants.apiKey, source.id ?: "")
-//            .enqueue(object : Callback<NewsResponse> {
-//                override fun onResponse(
-//                    call: Call<NewsResponse>,
-//                    response: Response<NewsResponse>
-//                ) {
-//                    progressBarVisible.value = false
-//                    newsList.value = (response.body()?.articles)
-//                }
-//
-//                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-//
-//                    //Toast.makeText(requireContext(), "Error Loading News", Toast.LENGTH_LONG).show()
-//                    progressBarVisible.value = false
-//
-//                }
-//            })
-    }
-//    fun searchByKeywordAndResource(keyword:String,source: SourcesItem){
-//
-//        progressBarVisible.value=true
-//        ApiManager.getApis().searchInNews(Constants.apiKey,keyword,source.id!!).enqueue(
-//            object :Callback<NewsResponse>{
-//                override fun onResponse(
-//                    call: Call<NewsResponse>,
-//                    response: Response<NewsResponse>
-//                ) {
-//                    progressBarVisible.value=false
-//                    searchedNewsList.value=response.body()?.articles
-//                }
-//
-//                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-//                    progressBarVisible.value=false
-//
-//                }
-//            }
-//        )
-//
-//    }
 
+    }
 }

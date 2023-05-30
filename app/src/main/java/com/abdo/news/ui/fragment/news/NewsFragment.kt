@@ -4,11 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import com.abdo.domain.model.ArticlesItemDTO
 import com.abdo.domain.model.SourcesItemDTO
 import com.abdo.news.R
 import com.abdo.news.databinding.FragmentNewsBinding
@@ -21,6 +26,9 @@ import javax.inject.Inject
 class NewsFragment : Fragment() {
 
     companion object {
+
+        var items: ArticlesItemDTO? = null
+        var tagg: SourcesItemDTO? = null
         fun getInstance(category: Category): NewsFragment {
             val fragment = NewsFragment()
             fragment.category = category
@@ -28,10 +36,18 @@ class NewsFragment : Fragment() {
         }
     }
 
+    val newsViewModel: NewsViewModel by viewModels()
+
+    @Inject
+    lateinit var newsDetailsFragment: NewsDetailsFragment
+
     @Inject
     lateinit var adapter: NewsAdapter
     lateinit var category: Category
     lateinit var viewDataBinding: FragmentNewsBinding
+    lateinit var search: SearchView
+    lateinit var name: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,62 +55,92 @@ class NewsFragment : Fragment() {
     ): View? {
         viewDataBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
-        //return inflater.inflate(R.layout.fragment_news, container, false)
         return viewDataBinding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        search.isVisible = false
+    }
 
-    lateinit var viewModel: NewsViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
         subscribeToLiveData()
-        viewModel.getNewsSources(category)
+        newsViewModel.getNewsSources(category)
+        openNewsDetails()
+        controlSearchView()
+        search.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                newsViewModel.loadNews(tagg, query!!.lowercase())
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newsViewModel.loadNews(tagg, newText!!.lowercase())
+                return true
+            }
+        })
+    }
+
+    fun openNewsDetails() {
+        adapter.onItemClick = object : NewsAdapter.OnItemClickListener {
+
+            override fun onClick(position: Int, item: ArticlesItemDTO) {
+
+                items = item
+                var fragmentManager: FragmentManager = activity?.supportFragmentManager!!
+                var fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.fragment_container, newsDetailsFragment)
+                fragmentTransaction.addToBackStack("d")
+                fragmentTransaction.commit()
+
+            }
+
+
+        }
 
     }
 
     private fun subscribeToLiveData() {
-        viewModel.progressBarVisible.observe(viewLifecycleOwner, Observer { isVisible ->
+        newsViewModel.progressBarVisible.observe(viewLifecycleOwner, Observer { isVisible ->
 
             viewDataBinding.progress.isVisible = isVisible
 
         })
-        viewModel.sourcesLiveData.observe(viewLifecycleOwner, Observer { data ->
+        newsViewModel.sourcesLiveData.observe(viewLifecycleOwner, Observer { data ->
             showTabs(data)
         })
-        viewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
+        newsViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
             adapter.changeData(it)
         })
-        viewModel.searchedNewsList.observe(viewLifecycleOwner, {
-
-        })
+//
     }
 
 
     private fun initView() {
-//        progressBar = requireView().findViewById(R.id.progress)
-//        tabLayout = requireView().findViewById(R.id.tabLayout)
-//        recyclerView = requireView().findViewById(R.id.recycler_view_news)
+//
         viewDataBinding.recyclerViewNews.adapter = adapter
-
+        search = requireActivity().findViewById(R.id.abd)
+        name = requireActivity().findViewById(R.id.category_name)
+        name.text = category.id
     }
 
     private fun showTabs(sources: List<SourcesItemDTO?>?) {
         sources?.forEach { item ->
             val tab = viewDataBinding.tabLayout.newTab()
             tab.tag = item
-            tab.text = item?.name
+            tab.text = item?.name + ""
             viewDataBinding.tabLayout.addTab(tab)
         }
         viewDataBinding.tabLayout.addOnTabSelectedListener(
             object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    // sources?.get(tab?.position?:0)
                     val source = tab?.tag as SourcesItemDTO
-                    viewModel.loadNews(source)
-                    //loadNews(source)
+                    newsViewModel.loadNews(source, "")
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -103,30 +149,32 @@ class NewsFragment : Fragment() {
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {
                     val source = tab?.tag as SourcesItemDTO
-                    viewModel.loadNews(source)
+                    tagg = source
+                    newsViewModel.loadNews(source, "")
                     //  loadNews(source)
                 }
             }
         )
         viewDataBinding.tabLayout.getTabAt(0)?.select()
     }
-//    fun controlSearchView() {
-//
-//        search.isVisible = true
-//
-//        search.setOnSearchClickListener {
-//            name.text = null
-//        }
-//
-//        search.setOnCloseListener(SearchView.OnCloseListener {
-//
-//            name.text = "News App"
-//            newsViewModel.getNewsBySource(tagg, null)
-//
-//            return@OnCloseListener false
-//        })
-//
-//    }
+
+    fun controlSearchView() {
+
+        search.isVisible = true
+
+        search.setOnSearchClickListener {
+            name.text = null
+        }
+
+        search.setOnCloseListener(SearchView.OnCloseListener {
+
+            name.text = category.id
+            newsViewModel.loadNews(tagg, null)
+
+            return@OnCloseListener false
+        })
+
+    }
 
 
 }
