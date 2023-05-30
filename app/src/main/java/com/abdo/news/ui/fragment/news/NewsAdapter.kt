@@ -27,7 +27,14 @@ class NewsAdapter(var items: List<ArticlesItemDTO?>? = null) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items!![position];
         holder.bind(item)
+        if (onItemClick != null) {
 
+            holder.itemView.setOnClickListener {
+
+                onItemClick?.onClick(position, item!!)
+
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,10 +46,17 @@ class NewsAdapter(var items: List<ArticlesItemDTO?>? = null) :
         notifyDataSetChanged()
     }
 
+    var onItemClick: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+
+        fun onClick(position: Int, item: ArticlesItemDTO)
+    }
+
     class ViewHolder(val itemBinding: ItemNewsBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: ArticlesItemDTO?) {
             itemBinding.item = item
-            itemBinding.invalidateAll()
+            itemBinding.executePendingBindings()
         }
     }
 

@@ -1,13 +1,14 @@
 package com.abdo.domain.repos
 
 import com.abdo.domain.model.ArticlesItemDTO
+import com.abdo.domain.model.SourcesItemDTO
 
 
 interface NewsRepository {
-    suspend fun getNews(sourceId: String): List<ArticlesItemDTO?>?
+    suspend fun getNews(source: SourcesItemDTO, query: String?): List<ArticlesItemDTO?>?
 }
 
 interface NewsOnlineDataSource {
 
-    suspend fun getNewsBySourceId(sourceId: String): List<ArticlesItemDTO?>?
+    suspend fun getNewsBySourceId(source: SourcesItemDTO, query: String?): List<ArticlesItemDTO?>?
 }

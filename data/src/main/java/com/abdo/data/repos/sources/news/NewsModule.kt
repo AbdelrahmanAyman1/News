@@ -1,4 +1,4 @@
-package com.abdo.data.repos.news
+package com.abdo.data.repos.sources.news
 
 import com.abdo.data.api.Services
 import com.abdo.domain.repos.NewsOnlineDataSource
